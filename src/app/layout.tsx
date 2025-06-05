@@ -8,7 +8,7 @@ import { AuthServer } from "./auth.server";
 import { Link } from "@/components/ui/link";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
-import { WelcomeToast } from "./welcome-toast";
+import { WelcomeToast } from "@/components/toasts/WelcomeToast";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 

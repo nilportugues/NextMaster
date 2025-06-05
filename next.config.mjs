@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    ppr: true,
+    ppr: false,
     inlineCss: true,
-    reactCompiler: true,
+    reactCompiler: false,
   },
   typescript: {
     ignoreBuildErrors: true,
