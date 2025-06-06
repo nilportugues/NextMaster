@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { CartItems, TotalCost } from "./dynamic";
-import { PlaceOrderAuth } from "../auth.server";
+import { CartItemsList } from "@/features/cart/components/CartItemsList"; // Updated import
+import { TotalCost } from "@/features/orders/components/TotalCost"; // Added
+import { PlaceOrderAuth } from "@/features/auth/auth.server";
 import PageTitle from "@/components/ui/PageTitle";
 import InfoBox from "@/components/ui/InfoBox";
 
@@ -20,7 +21,7 @@ export default async function Page() {
         <div className="flex grid-cols-3 flex-col gap-8 pt-4 lg:grid">
           <div className="col-span-2">
             <Suspense>
-              <CartItems />
+              <CartItemsList /> {/* Updated usage */}
             </Suspense>
           </div>
 

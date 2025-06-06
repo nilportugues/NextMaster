@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/queries";
+import { getUser } from "@/features/auth/lib/queries";
 
 export async function OrderHistoryDynamic() {
   const user = await getUser();

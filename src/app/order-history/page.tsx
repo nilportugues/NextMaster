@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { OrderHistoryDynamic } from "./dynamic";
+import { OrderHistoryDynamic } from "@/features/orders/components/OrderHistoryDynamic";
 import PageTitle from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {

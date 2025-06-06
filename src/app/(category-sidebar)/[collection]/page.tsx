@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { collections } from "@/db/schema";
-import { getCollectionDetails } from "@/lib/queries";
-import CategoryItem from "@/components/category/CategoryItem";
+import { getCollectionDetails } from "@/features/plp/lib/queries";
+import CategoryItem from "@/features/plp/components/CategoryItem";
 
 export async function generateStaticParams() {
   return await db.select({ collection: collections.slug }).from(collections);

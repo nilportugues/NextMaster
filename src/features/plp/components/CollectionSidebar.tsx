@@ -1,5 +1,5 @@
 import { Link } from "@/components/ui/link";
-import { getCollections } from "@/lib/queries";
+import { getCollections } from "@/features/plp/lib/queries";
 
 export default async function CollectionSidebar() {
   const allCollections = await getCollections();

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
-import { getProductDetails } from "@/lib/queries";
+import { getProductDetails } from "@/features/pdp/lib/queries";
 
 // Route segment config
 export const runtime = "edge";

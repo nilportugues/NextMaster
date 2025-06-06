@@ -1,4 +1,4 @@
-import CollectionSidebar from "@/components/sidebar/CollectionSidebar";
+import CollectionSidebar from "@/features/plp/components/CollectionSidebar";
 // Ensure Link and getCollections imports are removed if no longer directly used here
 
 export default async function Layout({
