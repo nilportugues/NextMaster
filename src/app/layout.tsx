@@ -6,7 +6,6 @@ import { Suspense } from "react";
 import CartIcon from "@/features/cart/components/CartIcon"; // Updated import
 import { AuthServer } from "@/features/auth/auth.server";
 import { Link } from "@/components/ui/link";
-import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
 import { WelcomeToast } from "@/components/toasts/WelcomeToast";
 import { GeistSans } from "geist/font/sans";
@@ -124,7 +123,7 @@ export default async function RootLayout({
           <Toaster closeButton />
           <WelcomeToast />
         </Suspense>
-        <Analytics scriptSrc="/insights/events.js" endpoint="/hfi/events" />
+        <script async defer data-website-id="YOUR_UMAMI_WEBSITE_ID" src="YOUR_UMAMI_SCRIPT_URL"></script>
       </body>
     </html>
   );

@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy # Wait for postgres to be healthy
+      redis:
+        condition: service_started # Wait for redis to start (can add healthcheck too)
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/nextfaster"
+      # Example for Redis connection, if needed by the app explicitly
+      # REDIS_URL: "redis://redis:6379"
+      # Ensure NEXT_TELEMETRY_DISABLED is set if you want to disable it
+      # NEXT_TELEMETRY_DISABLED: 1
+      # For Next.js standalone mode, PORT is important
+      PORT: 3000
+    volumes:
+      # For development, you might mount source code.
+      # For a production build from Dockerfile, this might not be needed
+      # or should only mount specific configuration or data files.
+      # - .:/app
+      # - /app/node_modules
+      # - /app/.next
+      # If running `pnpm dev` in the container, then source mounting is essential:
+      # - .:/app # Mounts the current directory into /app in the container
+      # - /app/node_modules # Excludes node_modules from being overwritten by the host
+      # - /app/.next # Excludes .next from being overwritten
+    # command: pnpm dev # For development
+    command: node server.js # For running the production build from standalone output
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nextfaster
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nextfaster"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
