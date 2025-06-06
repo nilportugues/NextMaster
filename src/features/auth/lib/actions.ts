@@ -6,8 +6,8 @@ import { cookies, headers } from "next/headers";
 import { validatedAction } from "@/lib/middleware";
 import { db } from "@/db";
 import { NewUser, users } from "@/db/schema";
-import { comparePasswords, hashPassword, setSession } from "@/lib/session";
-import { authRateLimit, signUpRateLimit } from "@/lib/rate-limit";
+import { comparePasswords, hashPassword, setSession } from "@/features/auth/lib/session";
+import { authRateLimit, signUpRateLimit } from "@/features/auth/lib/rate-limit";
 
 const authSchema = z.object({
   username: z.string().min(1),

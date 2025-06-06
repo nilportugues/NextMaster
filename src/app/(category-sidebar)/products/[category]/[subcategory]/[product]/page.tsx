@@ -1,10 +1,11 @@
 import { ProductLink } from "@/components/ui/product-card";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { AddToCartForm } from "@/components/add-to-cart-form";
+import { AddToCartForm } from "@/features/pdp/components/add-to-cart-form";
 import { Metadata } from "next";
 
-import { getProductDetails, getProductsForSubcategory } from "@/lib/queries";
+import { getProductDetails } from "@/features/pdp/lib/queries";
+import { getProductsForSubcategory } from "@/features/plp/lib/queries";
 // import { db } from "@/db";
 
 // export async function generateStaticParams() {

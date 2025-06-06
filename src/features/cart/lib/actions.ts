@@ -1,6 +1,6 @@
 "use server";
 
-import { getCart, updateCart } from "./cart";
+import { getCart, updateCart } from "./core";
 
 export async function addToCart(prevState: unknown, formData: FormData) {
   const prevCart = await getCart();

@@ -1,14 +1,10 @@
-import { cache } from "react";
-import { detailedCart } from "@/lib/cart";
+import { getCartItems, type CartItem as CartItemType } from "@/features/cart/lib/getCartItems";
 import { Link } from "@/components/ui/link";
 import Image from "next/image";
-import { removeFromCart } from "@/lib/actions";
+import { removeFromCart } from "@/features/cart/lib/actions"; // Updated path
 import { X } from "lucide-react";
 
-const getCartItems = cache(() => detailedCart());
-type CartItem = Awaited<ReturnType<typeof getCartItems>>[number];
-
-export async function CartItems() {
+export async function CartItemsList() { // Renamed from CartItems to avoid conflict if ever imported alongside a type
   const cart = await getCartItems();
   return (
     <>
@@ -21,7 +17,7 @@ export async function CartItems() {
       {cart.length > 0 ? (
         <div className="flex flex-col space-y-10">
           {cart.map((item) => (
-            <CartItem key={item.slug} product={item} />
+            <CartItemComponent key={item.slug} product={item} /> // Renamed helper to avoid clash
           ))}
         </div>
       ) : (
@@ -30,7 +26,8 @@ export async function CartItems() {
     </>
   );
 }
-function CartItem({ product }: { product: CartItem }) {
+
+function CartItemComponent({ product }: { product: CartItemType }) { // Renamed and using imported type
   if (!product) {
     return null;
   }
@@ -81,15 +78,4 @@ function CartItem({ product }: { product: CartItem }) {
       </div>
     </div>
   );
-}
-
-export async function TotalCost() {
-  const cart = await getCartItems();
-
-  const totalCost = cart.reduce(
-    (acc, item) => acc + item.quantity * Number(item.price),
-    0,
-  );
-
-  return <span> ${totalCost.toFixed(2)}</span>;
 }
