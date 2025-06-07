@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SearchDropdownComponent } from "@/components/search-dropdown";
+import { SearchDropdownComponent } from "@/features/search/components/search-dropdown";
 import { MenuIcon } from "lucide-react";
 import { Suspense } from "react";
-import { Cart } from "@/components/cart";
-import { AuthServer } from "./auth.server";
+import CartIcon from "@/features/cart/components/CartIcon"; // Updated import
+import { AuthServer } from "@/features/auth/auth.server";
 import { Link } from "@/components/ui/link";
-import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
-import { WelcomeToast } from "./welcome-toast";
+import { WelcomeToast } from "@/components/toasts/WelcomeToast";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 
@@ -71,7 +70,7 @@ export default async function RootLayout({
                         ORDER
                       </Link>
                       <Suspense>
-                        <Cart />
+                        <CartIcon /> {/* Updated usage */}
                       </Suspense>
                     </div>
                     <Link
@@ -124,7 +123,7 @@ export default async function RootLayout({
           <Toaster closeButton />
           <WelcomeToast />
         </Suspense>
-        <Analytics scriptSrc="/insights/events.js" endpoint="/hfi/events" />
+        <script async defer data-website-id="YOUR_UMAMI_WEBSITE_ID" src="YOUR_UMAMI_SCRIPT_URL"></script>
       </body>
     </html>
   );

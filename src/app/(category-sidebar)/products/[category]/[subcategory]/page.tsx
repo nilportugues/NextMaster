@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { ProductLink } from "@/components/ui/product-card";
+import { ProductLink } from "@/features/plp/components/product-card";
 import type { Metadata } from "next";
 import {
   getProductsForSubcategory,
   getSubcategory,
   getSubcategoryProductCount,
-} from "@/lib/queries";
+} from "@/features/plp/lib/queries";
 // import { db } from "@/db";
 
 // export async function generateStaticParams() {

@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/queries";
+import { getUser } from "@/features/auth/lib/queries";
 import { LoginForm, SignInSignUp, SignOut } from "./auth.client";
 
 export async function AuthServer() {
