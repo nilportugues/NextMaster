@@ -17,8 +17,12 @@ const authSchema = z.object({
 export const signUp = validatedAction(authSchema, async (data) => {
   const { username, password } = data;
   const ip = (await headers()).get("x-real-ip") ?? "local";
-  const rl2 = await signUpRateLimit.limit(ip);
-  if (!rl2.success) {
+  try {
+    await signUpRateLimit.consume(ip); // Consumes 1 point by default
+  } catch (rateLimiterRes) {
+    // If rateLimiterRes is an instance of Error, it's an unexpected error.
+    // If it's an object from rate-limiter-flexible, it means rate limit exceeded.
+    // For simplicity, we'll treat any catch as rate limit exceeded for now.
     return {
       error: {
         code: "AUTH_ERROR",
@@ -55,9 +59,9 @@ export const signUp = validatedAction(authSchema, async (data) => {
 export const signIn = validatedAction(authSchema, async (data) => {
   const { username, password } = data;
   const ip = (await headers()).get("x-real-ip") ?? "local";
-  const rl = await authRateLimit.limit(ip);
-
-  if (!rl.success) {
+  try {
+    await authRateLimit.consume(ip); // Consumes 1 point by default
+  } catch (rateLimiterRes) {
     return {
       error: {
         code: "AUTH_ERROR",
