@@ -1,12 +1,14 @@
 import { Link } from "@/components/ui/link";
 import { getCollections, getProductCount } from "@/lib/queries";
+import { isFeatureEnabled } from '../../lib/feature-flags'; // Import the new feature flag function
 
 import Image from "next/image";
 
 export default async function Home() {
-  const [collections, productCount] = await Promise.all([
+  const [collections, productCount, showNewUiFeature] = await Promise.all([
     getCollections(),
     getProductCount(),
+    isFeatureEnabled('testFeature'), // Check the feature flag status
   ]);
   let imageCount = 0;
 
@@ -15,6 +17,18 @@ export default async function Home() {
       <div className="mb-2 w-full flex-grow border-b-[1px] border-accent1 text-sm font-semibold text-black">
         Explore {productCount.at(0)?.count.toLocaleString()} products
       </div>
+      {showNewUiFeature && (
+        <div className="my-2 rounded bg-blue-100 p-3 text-center text-blue-700">
+          <p>🎉 Redis Feature Flag 'testFeature' is ENABLED! New UI Active! 🎉</p>
+        </div>
+      )}
+      {/* You could also add an else block or alternative message if needed:
+      {!showNewUiFeature && (
+        <div className="my-2 rounded bg-gray-100 p-3 text-center text-gray-700">
+          <p>Redis Feature Flag 'testFeature' is disabled. Showing default UI.</p>
+        </div>
+      )}
+      */}
       {collections.map((collection) => (
         <div key={collection.name}>
           <h2 className="text-xl font-semibold">{collection.name}</h2>
