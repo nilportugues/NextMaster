@@ -1,3 +1,15 @@
+/**
+ * This module provides a Redis-based feature flag system.
+ *
+ * Feature flags are simple boolean flags stored in Redis. To enable a feature,
+ * set a key in Redis with the prefix `feature:` followed by the feature name,
+ * and set its value to the string "true".
+ * For example, to enable a feature named 'newCheckout', set the Redis key
+ * 'feature:newCheckout' to "true".
+ *
+ * The Redis connection URL is configured via the `REDIS_URL` environment
+ * variable. If `REDIS_URL` is not set, it defaults to `redis://redis:6379`.
+ */
 import Redis from 'ioredis';
 
 // Define a Redis connection URL. Use process.env.REDIS_URL if available, otherwise default to redis://redis:6379.
@@ -26,9 +38,27 @@ redisClient.on('error', (err) => {
 });
 
 /**
- * Checks if a feature is enabled by querying its state in Redis.
- * @param featureName The name of the feature to check.
- * @returns A promise that resolves to true if the feature is enabled, false otherwise.
+ * Checks if a specific feature is enabled by querying its state in Redis.
+ *
+ * To enable a feature, set a Redis key in the format `feature:<featureName>`
+ * to the string value `"true"`. For example, for a feature named 'newDashboard',
+ * the Redis key would be `feature:newDashboard`.
+ *
+ * @param featureName The name of the feature to check (e.g., 'newDashboard').
+ * @returns A promise that resolves to `true` if the feature is enabled (i.e., the corresponding
+ *          Redis key exists and its value is "true"), and `false` otherwise (key not found,
+ *          value is not "true", or an error occurs).
+ * @example
+ * async function checkNewDashboard() {
+ *   const newDashboardEnabled = await isFeatureEnabled('newDashboard');
+ *   if (newDashboardEnabled) {
+ *     console.log('New dashboard is enabled, rendering new UI...');
+ *     // showNewDashboardUI();
+ *   } else {
+ *     console.log('New dashboard is disabled, rendering old UI...');
+ *     // showOldDashboardUI();
+ *   }
+ * }
  */
 export async function isFeatureEnabled(featureName: string): Promise<boolean> {
   const key = `feature:${featureName}`;
